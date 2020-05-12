@@ -1,0 +1,63 @@
+<% layout('apilayout') -%> 
+
+<div class="table-responsive">
+
+<form  class="form-vertical"  action="#" method="post">
+ <table id="table-cluster1" class="table table-striped">
+   <tr>
+    <th>Location Id</th><th>Name</th><th>Type</th><th>Building</th>
+    <th>Street</th> <th>City</th><th>PIN</th><th></th></tr>  
+    <tr> 
+      <td> <input type="text" id="lid" size="10"></td><td><input type="text" id="name"  size="25"></td><td><input type="text" id="ltype"  size="10"></td>
+      <td><input type="text" id="building"  size="15"> </td><td> <input type="text" id="street"  size="15"></td><td><input type="text" id="city"  size="15"></td><td><input type="text" id="pin"  size="6">
+	   </td><td><input type="button" id="addlocation" value="Add" onclick="addloc()"> </td>
+     </tr>
+ </table>
+ </form>
+ <hr/>
+ <table id="table-cluster" class="table table-striped">
+   <tr>
+    <th>Location Id</th> <th>Name</th><th>Type</th><th>Building</th>
+    <th>Street</th> <th>City</th><th>PIN</th><th></th></tr>
+  <%  var data= JSON.parse(locations);
+    for(var i in data) {   %>
+    <tr> 
+      <td> <%= data[i].lid %></td><td> <%= data[i].name %></td><td> <%= data[i].type %></td>
+      <td><%= data[i].location.building %> </td><td> <%= data[i].location.street %></td><td><%= data[i].location.City %> </td>
+      <td> <%= data[i].location.zip %></td><td><input type="button" value="Delete"  onclick="delloc('<%=data[i]._id %>')"></td> 
+     </tr>
+ <% } %>
+ </table>
+</div>
+
+<script type="text/javascript">
+  var user=$('#user').val(), pass=$('#pass').val();
+  
+function addloc() {
+    var name=$('#name').val(), ltype=$('#ltype').val(), building=$('#building').val(), city=$('#city').val(), street=$('#street').val()
+	, lid=$('#lid').val(), pin=$('#pin').val();
+   
+    $.ajax({url:'/api/location', 
+      type: 'POST',
+      contentType: 'application/json',	  
+      data:JSON.stringify({lid:lid,name:name,type:ltype,location:{building:building,City:city,street:street,location:building,zip:pin}}),	 
+
+	complete: function() { /* Do something with the response. */ 
+							location.reload(true);	}
+    });
+   // return false; // Prevent form submit.
+  }
+
+ function delloc(id) {
+    $.ajax('/api/location/'+id, {
+      type: 'DELETE',
+      contentType: 'text/json',     
+      complete: function() { /* Do something with the response. */ 
+							location.reload(true);	}
+    });
+    
+  }
+</script>
+
+
+

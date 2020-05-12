@@ -1,0 +1,18 @@
+<% layout('apilayout') -%> 
+
+<div class="table-responsive">
+ <table id="table-cluster" class="table table-striped">
+   <tr>
+    <th>User Id</th> <th>Name</th><th>Type</th><th>Groups</th><th>Locations</th><th>Email</th><th>Status</th>
+  </tr>
+  <tbody>
+  <%  var data= JSON.parse(users);
+    for(var i in data) {   %>
+    <tr> 
+      <td> <%= data[i].uid %></td><td> <%= data[i].name %></td><td> <%= data[i].type %></td><td><%= data[i].group %> </td><td> <%= data[i].locations %></td>
+      <td> <%= data[i].local.email %></td> <td> <%= data[i].status %></td>
+     </tr>
+ <% } %>               
+  </tbody>
+ </table>
+</div>

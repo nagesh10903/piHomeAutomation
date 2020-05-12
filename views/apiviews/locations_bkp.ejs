@@ -1,0 +1,20 @@
+<% layout('apilayout') -%> 
+
+<div class="table-responsive">
+ <table id="table-cluster" class="table table-striped">
+   <tr>
+    <th>Location Id</th> <th>Name</th><th>Type</th><th>Building</th>
+    <th>Street</th> <th>City</th><th>PIN</th><th>Status</th></tr>
+  <%  var data= JSON.parse(locations);
+    for(var i in data) {   %>
+    <tr> 
+      <td> <%= data[i].lid %></td><td> <%= data[i].name %></td><td> <%= data[i].type %></td>
+      <td><%= data[i].location.building %> </td><td> <%= data[i].location.street %></td><td><%= data[i].location.City %> </td>
+      <td> <%= data[i].location.zip %></td> <td> <%= data[i].status %></td>
+     </tr>
+ <% } %>
+ </table>
+</div>
+
+
+

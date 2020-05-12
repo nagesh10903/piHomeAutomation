@@ -1,0 +1,72 @@
+<% layout('apilayout') -%> 
+
+<form  class="form-vertical"  action="#" method="post">
+ <table id="table-cluster1" class="table table-striped">
+   <tr>
+    <th>Device Id</th><th>Name</th><th>Type</th><th>Mode</th><th>Location</th> <th>Category</th><th></th></tr>  
+    <tr> 
+      <td> <input type="text" id="did" size="10"></td><td><input type="text" id="name" size="20"></td><td><input type="text" id="ltype" size="10"></td>
+      <td><input type="text" id="mode" size="10"> </td><td> <input type="text" id="location" size="10"></td><td><input type="text" id="category" size="10">
+	   </td><td><input type="button" id="adddevice" value="Add" onclick="adddev()"> </td>
+     </tr>
+ </table>
+ </form>
+ <hr/>
+<div class="table-responsive">
+ <table id="table-cluster" class="table table-striped">
+   <tr>
+    <th>Device Id</th> <th>Name</th><th>Type</th><th>Mode</th><th>Location</th> <th>IP/MAC</th><th>Values</th><th></th>
+  </tr>
+  <tbody>
+  <%  var dev= JSON.parse(devices);
+    for(var i in dev) {   %>
+    <tr> 
+      <td> <%= dev[i].did %><td> <%= dev[i].name %></td><td> <%= dev[i].type %></td><td><%= dev[i].mode %> </td><td> <%= dev[i].details.location %></td><td><%= dev[i].details.ip+"/"+dev[i].details.mac %> </td>
+      <td> <%= dev[i].values.value1 +"/"+ dev[i].values.value2 %><td> <td><input type="button" id="adddevice" value="Delete" onclick="deldev('<%=dev[i]._id %>')" ></td>
+     </tr>
+ <% } %>               
+  </tbody>
+ </table>
+</div>
+
+<script type="text/javascript">
+  var user=$('#user').val(), pass=$('#pass').val();
+  $('adddevice').bind('click', function() {
+  alert('submit');
+    $.ajax('/apidevices', {
+      type: 'POST',
+      contentType: 'text/json',
+      data: JSON.stringify({did:did,name:name,type:type,details:{location:location},mode:mode,
+			category:category}),
+      complete: function() { /* Do something with the response. */ }
+    });
+    return false; // Prevent form submit.
+  });
+
+
+
+  function adddev() {
+    var name=$('#name').val(), ltype=$('#ltype').val(), mode=$('#mode').val(), category=$('#category').val(), location1=$('#location').val()
+	, did=$('#did').val();
+   
+    $.ajax({url:'/api/devices', 
+      type: 'POST',
+      contentType: 'application/json',	  
+      data:JSON.stringify({did:did,name:name,type:ltype,details:{location:location1},mode:mode,category:category}),	 
+
+	complete: function() { /* Do something with the response. */ 
+							location.reload(true);	}
+    });
+   // return false; // Prevent form submit.
+  }
+
+ function deldev(id) {
+    $.ajax('/api/devices/'+id, {
+      type: 'DELETE',
+      contentType: 'text/json',     
+      complete: function() { /* Do something with the response. */ 
+							location.reload(true);	}
+    });
+    
+  }
+</script>

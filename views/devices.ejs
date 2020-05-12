@@ -1,0 +1,25 @@
+<% layout('layout') -%>
+
+<div class="table-responsive">
+ 
+    <table id="table-cluster" class="table table-striped">
+            <thead>
+                <th>#</th>
+                <th>User</th>
+                <th>Department</th>
+<th>User</th>
+                <th>Department</th>
+<th>User</th>
+                <th>Department</th>
+            </thead>
+            <tbody>
+  <% devices.forEach(function(device) {   %>
+       <tr> <td> <%= device.id %></td><td> <%= device.name %></td><td><%= device.status %> </td><td> <%= devices.updated_at %></td><td><%= devices.sync %> </td></tr>
+ <% }); %> 
+                
+                <tr><td>002</td><td>Mark Johnson</td><td>HD</td><td>002</td><td>Mark Johnson</td><td>HD</td></tr>
+            </tbody>
+    </table>
+</div>
+
+
